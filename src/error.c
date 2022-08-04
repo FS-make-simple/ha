@@ -27,10 +27,11 @@
 
 int inerror=0,lasterror=0;
 
-char *error_string[]={
-    "Error in error handling !!!",			
+char *error_string[]=
+{
+    "Error in error handling !!!",
     "Unknown error",
-    "Command %c not implemented",	
+    "Command %c not implemented",
     "Could not open archive %s",
     "Out of memory in %s",
     "%s is not a HA archive",
@@ -59,17 +60,19 @@ char *error_string[]={
 };
 
 
-void error(int fatal, int number, ...) {
-    
+void error(int fatal, int number, ...)
+{
+
     va_list argptr;
-    
+
     fflush(stdout);
-    if (inerror) {
-	fprintf(stderr,"\n%s: ",myname);
-	fprintf(stderr,error_string[0]);
-	fprintf(stderr,"\n");
-	fflush(stderr);	
-	exit(inerror);
+    if (inerror)
+    {
+        fprintf(stderr,"\n%s: ",myname);
+        fprintf(stderr,error_string[0]);
+        fprintf(stderr,"\n");
+        fflush(stderr);
+        exit(inerror);
     }
     inerror=number;
     fprintf(stderr,"\n%s: ",myname);
@@ -77,10 +80,11 @@ void error(int fatal, int number, ...) {
     vfprintf(stderr,error_string[number],argptr);
     fprintf(stderr,"\n");
     fflush(stderr);
-    if (!fatal) {
-	lasterror=inerror;
-	inerror=0;
-	return;
+    if (!fatal)
+    {
+        lasterror=inerror;
+        inerror=0;
+        return;
     }
     cu_do(NULL);
     exit(number);

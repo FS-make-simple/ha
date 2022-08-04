@@ -19,42 +19,36 @@
 #	Makefile for HA/gcc
 ############################################################################
 
-MCH = nix
+TARGET = ha
 
-CC = gcc
-CPP = $(CC) -E
-CFLAGS = -Wall -O2 -c # -I../$(MCH) -I../include
-LDFLAGS = -O2
+CC ?= gcc
+CFLAGS ?= -Wall -O2
+LDFLAGS ?= $(CFLAGS) -s
 
-MDEFINES = "CC=$(CC)" "CPP=$(CPP)" "CFLAGS=$(CFLAGS)" "DEFS=$(DEFS)"
-SUBDIRS = 
-#OBJS = c/*.o $(MCH)/*.o
-OBJS = acoder.o archive.o asc.o cpy.o error.o ha.o haio.o hsc.o info.o \
-	machine.o misc.o swdict.o
+SRCS = src/acoder.c \
+       src/archive.c \
+       src/asc.c \
+       src/cpy.c \
+       src/error.c \
+       src/haio.c \
+       src/hsc.c \
+       src/info.c \
+       src/machine.c \
+       src/misc.c \
+       src/swdict.c \
+       src/ha.c
+OBJS = $(SRCS:%.c=%.o)
+RM ?= rm -f
+
+$(TARGET): $(OBJS)
+	$(CC) $(LDFLAGS) $^ -o $@
 
 .c.o:
-	$(CC) -c $(CFLAGS) $<
-
-ha : $(OBJS)
-	$(CC) $(LDFLAGS) -o ha $(OBJS)
-
-subdirs: 
-	@for i in $(SUBDIRS); do (cd $$i && echo $$i && $(MAKE) $(MDEFINES)) || exit; done
-
-depend dep:
-	@for i in $(SUBDIRS); do (cd $$i && $(MAKE) $(MDEFINES) dep) || exit; done
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean: 
-	@for i in $(SUBDIRS); do (cd $$i && $(MAKE) clean) || exit; done
-	rm -f .depend ha *.out *~ *.o
+	$(RM) $(TARGET) $(OBJS)
 
-install:
+install: $(TARGET)
 	mkdir -p $(DESTDIR)/usr/bin
-	cp -v ha $(DESTDIR)/usr/bin/
-
-#
-# include a dependency file if one exists
-#
-ifeq (.depend,$(wildcard .depend))
-include .depend
-endif
+	cp -v $(TARGET) $(DESTDIR)/usr/bin/

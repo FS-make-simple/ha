@@ -16,7 +16,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ************************************************************************
-	HA error hadling 
+	HA error hadling
 ***********************************************************************/
 
 #define	ERR_UNKNOWN	1	/* Unknown error 			*/
@@ -46,7 +46,7 @@
 #define ERR_RDLINK      25      /* Readlink() error                     */
 #define ERR_MKLINK      26      /* Symlinklink() error                  */
 #define ERR_MKFIFO      27      /* Mkfifo() error                       */
- 
+
 extern int inerror;		/* Current error value */
 extern int lasterror;           /* Last error value */
 

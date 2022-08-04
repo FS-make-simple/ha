@@ -25,13 +25,13 @@
 #include <sys/stat.h>
 #include <signal.h>
 
-#define BETA "·"
+#define BETA "—Å"
 typedef short S16B;
 typedef unsigned short U16B;
 typedef long S32B;
 typedef unsigned long U32B;
 
-#define EXAMPLE "\n examples : ha a21r foo /bar/* , ha l foo , ha xy foo" 
+#define EXAMPLE "\n examples : ha a21r foo /bar/* , ha l foo , ha xy foo"
 #define ALLFILES "*"
 #define F_32B "ld"
 #define FX_32B "lX"
@@ -54,7 +54,7 @@ typedef unsigned long U32B;
 
 extern struct stat filestat;
 
-void md_init(void);	
+void md_init(void);
 /* char *md_strcase(char *s); */
 char *md_arcname(char *name_req);
 void md_gethdr(int len, int mode);

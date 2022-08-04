@@ -25,17 +25,19 @@
 #include "cpy.h"
 #include "haio.h"
 
-void cpy(void) {
-    
+void cpy(void)
+{
+
     register S16B c;
     register U32B cnt;
-    
+
     if ((cnt=totalsize)==0) return;
-    while ((c=getbyte())>=0) {
-	putbyte(c);
-	if (!--cnt) break;
+    while ((c=getbyte())>=0)
+    {
+        putbyte(c);
+        if (!--cnt) break;
     }
-    flush();   
+    flush();
 }
 
 

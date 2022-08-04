@@ -42,22 +42,26 @@ static char *outname=NULL,*inname=NULL;
 void (*outspecial)(unsigned char *obuf, unsigned oblen);
 unsigned (*inspecial)(unsigned char *ibuf, unsigned iblen);
 
-static void makecrctab(void) {
+static void makecrctab(void)
+{
 
     U16B i,j;
     U32B tv;
-	
-    for (i=0;i<256;i++) {
-	tv=i;
-	for (j=8;j>0;j--) {
-	    if (tv&1) tv=(tv>>1)^CRCP;
-	    else tv>>=1;
-	}
-	crctab[i]=tv;
+
+    for (i=0; i<256; i++)
+    {
+        tv=i;
+        for (j=8; j>0; j--)
+        {
+            if (tv&1) tv=(tv>>1)^CRCP;
+            else tv>>=1;
+        }
+        crctab[i]=tv;
     }
 }
 
-void setoutput(int fh, int mode, char *name) {
+void setoutput(int fh, int mode, char *name)
+{
 
     outname=name;
     outspecial=NULL;
@@ -67,15 +71,17 @@ void setoutput(int fh, int mode, char *name) {
     ocnt=0;
     outfile=fh;
     w_crc=mode&CRCCALC;
-    if (w_crc) {
-	if (!crctabok) makecrctab();
-	crc=CRCMASK;
+    if (w_crc)
+    {
+        if (!crctabok) makecrctab();
+        crc=CRCMASK;
     }
     w_progdisp=mode&PROGDISP;
 }
 
 
-void setinput(int fh, int mode, char *name) {
+void setinput(int fh, int mode, char *name)
+{
 
     inname=name;
     inspecial=NULL;
@@ -83,79 +89,96 @@ void setinput(int fh, int mode, char *name) {
     icnt=0;
     infile=fh;
     r_crc=mode&CRCCALC;
-    if (r_crc) {
-	if (!crctabok) makecrctab();
-	crc=CRCMASK;
+    if (r_crc)
+    {
+        if (!crctabok) makecrctab();
+        crc=CRCMASK;
     }
     r_progdisp=mode&PROGDISP;
 }
 
 
-U32B getcrc(void) {
-	
+U32B getcrc(void)
+{
+
     return crc^CRCMASK;
 }
 
-void clearcrc(void) {
+void clearcrc(void)
+{
 
     crc=CRCMASK;
 }
 
-void bread(void) {
-	
+void bread(void)
+{
+
     register S16B i;
     register unsigned char *ptr;
 
-    if (inspecial!=NULL) {
-	ibl=(*inspecial)(ib,BLOCKLEN);
-	ibf=0;
-	return;
+    if (inspecial!=NULL)
+    {
+        ibl=(*inspecial)(ib,BLOCKLEN);
+        ibf=0;
+        return;
     }
-    else {
-	ibl=read(infile,ib,BLOCKLEN);
-	if (ibl<0) error(1,ERR_READ,inname);
-	ibf=0;
+    else
+    {
+        ibl=read(infile,ib,BLOCKLEN);
+        if (ibl<0) error(1,ERR_READ,inname);
+        ibf=0;
     }
-    if (ibl) {
-	icnt+=ibl;
-	if (r_progdisp) {
-	    printf("%3d %%\b\b\b\b\b",
-		   (int)(icnt*100/(totalsize==0?1:totalsize)));
-	    fflush(stdout);
-	}
-	if (r_crc) {
-	    for (i=0,ptr=ib;i<ibl;++i) {
-		uppdcrc(crc,*(ptr++));
-	    }
-	}
+    if (ibl)
+    {
+        icnt+=ibl;
+        if (r_progdisp)
+        {
+            printf("%3d %%\b\b\b\b\b",
+                   (int)(icnt*100/(totalsize==0?1:totalsize)));
+            fflush(stdout);
+        }
+        if (r_crc)
+        {
+            for (i=0,ptr=ib; i<ibl; ++i)
+            {
+                uppdcrc(crc,*(ptr++));
+            }
+        }
     }
 }
 
-void bwrite(void) {
+void bwrite(void)
+{
 
     register S16B i;
     register unsigned char *ptr;
 
-    if (obl) {
-	if (outspecial!=NULL) {
-	    (*outspecial)(ob,obl);
-	}
-	else {
-	    if (write_on && write(outfile,ob,obl)!=obl) 
-	      error(1,ERR_WRITE,outname);
-	    ocnt+=obl;
-	    if (w_progdisp) {
-		printf("%3d %%\b\b\b\b\b",
-		       (int)(ocnt*100/(totalsize==0?1:totalsize)));
-		fflush(stdout);
-	    }
-	    if (w_crc) {
-		for (i=0,ptr=ob;i<obl;++i) {
-		    uppdcrc(crc,*(ptr++));
-		}
-	    }
-	}
-	obl=0;
+    if (obl)
+    {
+        if (outspecial!=NULL)
+        {
+            (*outspecial)(ob,obl);
+        }
+        else
+        {
+            if (write_on && write(outfile,ob,obl)!=obl)
+                error(1,ERR_WRITE,outname);
+            ocnt+=obl;
+            if (w_progdisp)
+            {
+                printf("%3d %%\b\b\b\b\b",
+                       (int)(ocnt*100/(totalsize==0?1:totalsize)));
+                fflush(stdout);
+            }
+            if (w_crc)
+            {
+                for (i=0,ptr=ob; i<obl; ++i)
+                {
+                    uppdcrc(crc,*(ptr++));
+                }
+            }
+        }
+        obl=0;
     }
 }
 

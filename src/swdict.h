@@ -20,8 +20,8 @@
 ***********************************************************************/
 
 void swd_init(U16B maxl, U16B bufl);	/* maxl=max len to be found  */
-					/* bufl=dictionary buffer len */
-					/* bufl+2*maxl-1<32768 !!! */
+/* bufl=dictionary buffer len */
+/* bufl+2*maxl-1<32768 !!! */
 void swd_cleanup(void);
 void swd_accept(void);
 void swd_findbest(void);
@@ -30,8 +30,8 @@ void swd_dpair(U16B l, U16B p);
 void swd_dchar(S16B c);
 
 #define MINLEN 	3	/* Minimum possible match lenght for this */
-			/* implementation */
+/* implementation */
 
 extern U16B swd_bpos,swd_mlf;
-extern S16B swd_char;	
+extern S16B swd_char;
 

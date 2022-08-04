@@ -25,7 +25,7 @@
 enum {M_CPY=0,M_ASC,M_HSC,M_UNK,M_DIR=14,M_SPECIAL};  /* Method types	*/
 
 #define ARC_OLD	0			/* Mode flags for arc_open()	*/
-#define ARC_NEW 1		
+#define ARC_NEW 1
 #define ARC_RDO 2
 
 #define T_DIR           1               /* Types for file type check    */
@@ -36,7 +36,8 @@ enum {M_CPY=0,M_ASC,M_HSC,M_UNK,M_DIR=14,M_SPECIAL};  /* Method types	*/
 #define MSDOSMDH	1		/* Identifiers for machine 	*/
 #define UNIXMDH		2		/*   specific header data 	*/
 
-typedef struct {			/* Header of file in archive 	*/
+typedef struct  			/* Header of file in archive 	*/
+{
     unsigned char type;
     unsigned char ver;
     U32B clen;
@@ -49,12 +50,12 @@ typedef struct {			/* Header of file in archive 	*/
     unsigned mylen;
 } Fheader;
 
-extern int arcfile;			/* Archive handle 		*/ 
+extern int arcfile;			/* Archive handle 		*/
 extern char *arcname;                   /* Archive name                 */
 extern struct stat arcstat;             /* Archive status (when opened) */
 
 void arc_open(char *arcname, int mode);
-void arc_reset(void);	
+void arc_reset(void);
 Fheader *arc_seek(void);
 void arc_delete(void);
 void arc_newfile(char *mdpath, char *name);
