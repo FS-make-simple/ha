@@ -20,10 +20,12 @@
 ############################################################################
 
 TARGET = ha
+SOVER = 0
 
 CC ?= gcc
 CFLAGS ?= -Wall -O2
 LDFLAGS ?= $(CFLAGS) -s
+AR = ar
 
 SRCS = src/acoder.c \
        src/archive.c \
@@ -35,19 +37,36 @@ SRCS = src/acoder.c \
        src/info.c \
        src/machine.c \
        src/misc.c \
-       src/swdict.c \
-       src/ha.c
+       src/swdict.c
+SRCT = src/ha.c
 OBJS = $(SRCS:%.c=%.o)
+OBJT = $(SRCT:%.c=%.o)
 RM ?= rm -f
 
-$(TARGET): $(OBJS)
+ifneq ($(shell uname -m), i386)
+    CFLAGS += -fPIC
+endif
+
+ifeq ($(SHARED),Y)
+    TLIB = lib$(TARGET).so.$(SOVER)
+else
+    TLIB = lib$(TARGET).a
+endif
+
+$(TARGET): $(OBJT) $(TLIB)
 	$(CC) $(LDFLAGS) $^ -o $@
+
+lib$(TARGET).a: $(OBJS)
+	$(AR) rcs $@ $^
+
+lib$(TARGET).so.$(SOVER): $(OBJS)
+	$(CC) -shared -Wl,-soname,$@ $(LDFLAGS) $^ -o $@
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean: 
-	$(RM) $(TARGET) $(OBJS)
+	$(RM) $(TARGET) $(OBJT) lib$(TARGET).so.$(SOVER) lib$(TARGET).a $(OBJS)
 
 install: $(TARGET)
 	mkdir -p $(DESTDIR)/usr/bin

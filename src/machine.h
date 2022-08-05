@@ -25,7 +25,7 @@
 #include <sys/stat.h>
 #include <signal.h>
 
-#define BETA "с"
+#define BETA "l"
 typedef short S16B;
 typedef unsigned short U16B;
 typedef long S32B;

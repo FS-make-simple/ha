@@ -1,9 +1,9 @@
 `ORG.FSMS:`
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/FS-make-simple/ha)
-![GitHub Release Date](https://img.shields.io/github/release-date/FS-make-simple/ha)
-![GitHub repo size](https://img.shields.io/github/repo-size/FS-make-simple/ha)
-![GitHub all releases](https://img.shields.io/github/downloads/FS-make-simple/ha/total)
-![GitHub](https://img.shields.io/github/license/FS-make-simple/ha)  
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/FS-make-simple/libha)
+![GitHub Release Date](https://img.shields.io/github/release-date/FS-make-simple/libha)
+![GitHub repo size](https://img.shields.io/github/repo-size/FS-make-simple/libha)
+![GitHub all releases](https://img.shields.io/github/downloads/FS-make-simple/libha/total)
+![GitHub](https://img.shields.io/github/license/FS-make-simple/libha)  
 
 # HA
 
